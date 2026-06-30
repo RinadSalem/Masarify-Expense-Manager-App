@@ -1,115 +1,209 @@
-💸 Masarify — Expense Manager App
+# 💸 Masarify — Expense Manager
 
-<p align="center">  
-  <strong>A fully offline personal finance and expense tracker application built with Flutter.</strong>  
-</p>  <p align="center">  
-  <img src="https://img.shields.io/badge/Flutter-%2302569B.svg?style=flat&logo=Flutter&logoColor=white" alt="Flutter">  
-  <img src="https://img.shields.io/badge/GetX-%232CA5E0.svg?style=flat" alt="GetX">  
-  <img src="https://img.shields.io/badge/SQLite-%23003B57.svg?style=flat&logo=sqlite&logoColor=white" alt="SQLite">  </p>  
----
+<p align="center">
+  <strong>A fully offline personal finance and expense tracker built with Flutter.</strong>
+</p>
 
-📱 Screenshots
-
-Splash Screen	Login / Register	Home Screen
-
-<img src="screens/splash.png" width="220">	<img src="screens/login.png" width="220">	<img src="screens/home.png" width="220">
-
-
-Add Expense	Smart Budget Overview	Budget Analytics
-
-<img src="screens/add_expenses .png" width="220">	<img src="screens/budget.png" width="220">	<img src="screens/budget2.png" width="220">
-
-
+<p align="center">
+  <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white"/>
+  <img src="https://img.shields.io/badge/GetX-8A2BE2?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Material%203-1976D2?style=for-the-badge"/>
+</p>
 
 ---
 
-✨ Features
+# 📱 Screenshots
 
-🔒 Local Authentication — Fully offline registration and secure sign-in logic.
+| Splash Screen | Login | Home |
+|:--------------:|:------:|:----:|
+| <img src="screens/splash.png" width="220"> | <img src="screens/login.png" width="220"> | <img src="screens/home.png" width="220"> |
 
-💾 Persistent Storage — Relies on a local SQLite database to keep all financial data sandboxed safely on your device.
-
-💡 Smart Budgeting — Dynamic monthly expenditure targeting with intuitive alert thresholds (Safe 🟢 / Warning 🟡 / Danger 🔴).
-
-🗂 Categorization & Filtering — 8 pre-defined categories with customized iconography and styling. Instantly search, sort, and filter logs.
-
-🌙 Modern Material 3 UI — A beautiful, dark-themed experience enhanced with fluid, declarative animations.
-
-
+| Add Expense | Budget Overview | Analytics |
+|:-----------:|:---------------:|:---------:|
+| <img src="screens/add_expenses .png" width="220"> | <img src="screens/budget.png" width="220"> | <img src="screens/budget2.png" width="220"> |
 
 ---
 
-🏗 Project Structure (Clean Architecture)
+# ✨ Features
 
-├── main.dart  
-├── models/                    # Data Layer Models  
-│   ├── user_model.dart        # User entity + Serialization (toMap/fromMap)  
-│   └── expense_model.dart     # Expense entity + Setup configurations  
-├── services/                  # Global & System Services  
-│   ├── database_service.dart  # SQLite operations (Singleton Pattern)  
-│   ├── app_theme.dart         # Material 3 Dark Theme mapping  
-│   └── app_routes.dart        # Core routing and Bindings mapping  
-├── controllers/               # Business Logic (GetX Controllers)  
-│   ├── auth_controller.dart   # Session & user registration logic  
-│   ├── expense_controller.dart# CRUD operations for expenses  
-│   └── budget_controller.dart # Budget calculations & thresholds  
-├── bindings/                  # Dependency Injection via GetX  
-│   ├── auth_binding.dart  
-│   ├── home_binding.dart  
-│   └── budget_binding.dart  
-└── views/                     # Presentation Layer (UI Components)  
-    ├── add_expense_screen.dart  
-    ├── auth_screen.dart  
-    ├── budget_screen.dart  
-    ├── home_screen.dart  
-    └── splash_screen.dart
+- 🔒 **Offline Authentication**
+  - Local registration and login.
+  - No internet connection required.
 
-Data Flow Lifecycle
+- 💾 **SQLite Database**
+  - Secure local storage.
+  - Persistent financial records.
 
-graph LR  
-    View[UI Screen] -->|Event| Controller[GetX Controller]  
-    Controller -->|Query| DB[Database Service]  
-    DB -->|Fetch/Commit| SQLite[(SQLite)]  
-    SQLite -->|Update State| Rx[Rx Variables]  
-    Rx -->|Reactive Rebuild| Obx[Obx Widget]
+- 💰 **Smart Budget Management**
+  - Monthly budget tracking.
+  - Spending alerts:
+    - 🟢 Safe
+    - 🟡 Warning
+    - 🔴 Danger
 
-🗄️ Database Schema
+- 📂 **Expense Categories**
+  - 8 predefined categories.
+  - Search, sort, and filtering support.
 
-users Table
+- 🌙 **Modern UI**
+  - Material 3 Design
+  - Dark Theme
+  - Smooth Flutter animations
 
-Column	Type	Description
+---
 
-id	INTEGER PK	Auto-increment ID
-name	TEXT	Unique username
-password	TEXT	Hashed password
+# 🏗️ Project Architecture
 
+```
+lib
+│
+├── main.dart
+│
+├── models
+│   ├── user_model.dart
+│   └── expense_model.dart
+│
+├── services
+│   ├── database_service.dart
+│   ├── app_theme.dart
+│   └── app_routes.dart
+│
+├── controllers
+│   ├── auth_controller.dart
+│   ├── expense_controller.dart
+│   └── budget_controller.dart
+│
+├── bindings
+│   ├── auth_binding.dart
+│   ├── home_binding.dart
+│   └── budget_binding.dart
+│
+└── views
+    ├── splash_screen.dart
+    ├── auth_screen.dart
+    ├── home_screen.dart
+    ├── add_expense_screen.dart
+    └── budget_screen.dart
+```
 
-expenses Table
+---
 
-Column	Type	Description
+# 🔄 Data Flow
 
-id	INTEGER PK	Auto-increment ID
-user_id	INTEGER FK	References users(id) (ON DELETE CASCADE)
-title	TEXT	Expense description
-amount	REAL	Monetary value
-date	TEXT	ISO 8601 Timestamp
-category	TEXT	Category tag
+```mermaid
+graph LR
 
+A[UI Screen]
+--> B[GetX Controller]
 
-🧠 Core Concepts Applied
+B --> C[Database Service]
 
-Clean Architecture & Repository Pattern — Decoupling logic from raw database executions.
+C --> D[(SQLite)]
 
-Singleton Pattern — Thread-safe DatabaseService instance.
+D --> E[Rx Variables]
 
-Observer Pattern & DI — Utilizing GetX .obs reactive streams and automated lifecycle bindings.
+E --> F[Obx Widget]
 
-Concurrent Optimization — Running multiple metrics parallel using Future.wait.
+F --> A
+```
 
+---
 
-🚀 Getting Started
+# 🗄️ Database Schema
 
-git clone [https://github.com/RinadSalem/expense_manager.git](https://github.com/RinadSalem/expense_manager.git)  
-cd expense_manager  
-flutter pub get  
+## Users Table
+
+| Column | Type | Description |
+|---------|------|-------------|
+| id | INTEGER | Primary Key |
+| name | TEXT | Unique Username |
+| password | TEXT | Hashed Password |
+
+---
+
+## Expenses Table
+
+| Column | Type | Description |
+|---------|------|-------------|
+| id | INTEGER | Primary Key |
+| user_id | INTEGER | Foreign Key |
+| title | TEXT | Expense Title |
+| amount | REAL | Expense Amount |
+| date | TEXT | ISO 8601 Date |
+| category | TEXT | Expense Category |
+
+---
+
+# 🧠 Design Patterns & Concepts
+
+- ✅ Clean Architecture
+- ✅ Repository Pattern
+- ✅ Singleton Pattern
+- ✅ Dependency Injection (GetX)
+- ✅ Observer Pattern (.obs)
+- ✅ Reactive Programming
+- ✅ Future.wait() Optimization
+
+---
+
+# 🚀 Getting Started
+
+### Clone the repository
+
+```bash
+git clone https://github.com/RinadSalem/expense_manager.git
+```
+
+### Navigate to the project
+
+```bash
+cd expense_manager
+```
+
+### Install dependencies
+
+```bash
+flutter pub get
+```
+
+### Run the application
+
+```bash
 flutter run
+```
+
+---
+
+# 🛠️ Built With
+
+- Flutter
+- Dart
+- GetX
+- SQLite
+- Material 3
+
+---
+
+# 📌 Highlights
+
+- 📱 Fully Offline
+- 🔐 Local Authentication
+- 💾 SQLite Storage
+- 📊 Budget Analytics
+- ⚡ Reactive UI using GetX
+- 🌙 Material 3 Design
+
+---
+
+## 👨‍💻 Developer
+
+**Rinad Salem**
+
+GitHub: **https://github.com/RinadSalem**
+
+---
+
+<p align="center">
+⭐ If you like this project, don't forget to star the repository.
+</p>
